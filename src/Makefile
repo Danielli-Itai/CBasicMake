@@ -85,12 +85,17 @@ LDFLAGS = $(foreach d, $(LNK_PARAMS), -Wl,$d)
 #	 		Makefile Make Executable			#
 #-----------------------------------------------#
 # use phoney to set my own target file name.
-.PHONY: all
+.PHONY: build
 .SUFFIXES: .c
 
 
 # Build rules begin.
-all: $(SOURCES) $(TARGET)
+compile-all: $(CPP_FILES) $(ASM_FILES)
+
+build: $(SOURCES) $(TARGET)
+
+
+
 
 	
 #Main target executable: requires object files for generating output.
