@@ -10,15 +10,17 @@
 #*****************************************************************************
 
 #------------------------------------------------------------------------------
-# <Put a Description Here>
+# Make file for the course Introduction to Embedded Systems Software and Development Environments
+# Assignment for Week 2
 #
 # Use: make [TARGET] [PLATFORM-OVERRIDES]
 #
 # Build Targets:
-#      <Put a description of the supported targets here>
+#      MSP432: TI bear metal arm microcontroller.
+#      HOST:	Linux host machine. 
 #
 # Platform Overrides:
-#      <Put a description of the supported Overrides here
+#      MSP432:	ARM cortex M4, Hard floating point.
 #
 #------------------------------------------------------------------------------
 include sources.mk
@@ -50,7 +52,7 @@ ASM_FILES = $(CPP_FILES:%.i=%.asm)
 
 
 
-# Compilation.
+# Compiler.
 ifeq ($(PLATFORM), MSP432)
 	CC = arm-none-eabi-gcc
 	PLATFORM_FLAGS = -mcpu=cortex-m4 -mthumb -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 --specs=nosys.specs
@@ -59,11 +61,7 @@ else
 endif
 CFLAGS = -c -g -std=c99 -Wall -Werror -O0
 
-
-
-
-
-#linker
+#linker.
 ifeq ($(PLATFORM), MSP432)
 	LINKER_FILE = ../msp432p401r.lds
 	LNK_PARAMS = -T$(LINKER_FILE) -Map=$(MAP_FILE)
@@ -76,22 +74,17 @@ LDFLAGS = $(foreach d, $(LNK_PARAMS), -Wl,$d)
 
 
 
-
-
-
-
-
 #-----------------------------------------------#
-#	 		Makefile Make Executable			#
+#        Makefile Make Executable               #
 #-----------------------------------------------#
 # use phoney to set my own target file name.
 .PHONY: build
 .SUFFIXES: .c
 
 
-# Build rules begin.
+# Compilation rule.
 compile-all: $(CPP_FILES) $(ASM_FILES)
-
+#Build rule.
 build: $(SOURCES) $(TARGET)
 
 
@@ -107,7 +100,7 @@ $(TARGET): $(CPP_FILES) $(ASM_FILES) $(OBJ_FILES)
 %.i: %.c
 	$(CC) $(CFLAGS) $(INC_MACROS) $(INC_PARAMS) $(PLATFORM_FLAGS) -E $< -o $@
 
-##Compilation rule for generating assembly files.
+#Compilation rule for generating assembly files.
 %.asm: %.i
 	$(CC) $(CFLAGS) $(INC_MACROS) $(INC_PARAMS) $(PLATFORM_FLAGS) -S $< -o $@
 

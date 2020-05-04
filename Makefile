@@ -121,7 +121,7 @@ endif
 
 # Build rules begin.
 all: $(SOURCES) $(TARGET)
-
+compile: $(CPP_FILES) $(ASM_FILES)
 	
 #Main target executable: requires object files for generating output.
 $(TARGET): $(CPP_FILES) $(ASM_FILES) $(OBJ_FILES)
